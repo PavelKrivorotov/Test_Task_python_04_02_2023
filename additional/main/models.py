@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import select
 
 from .db import Base, session
 
@@ -39,7 +38,7 @@ class LaunchSQL(Base):
     __tablename__ = "launches"
 
     id = Column(
-        Integer,
+        String(24),
         primary_key=True,
         nullable=False,
     )
@@ -78,17 +77,15 @@ class MissionSQL(Base):
 def make_insertion(
         model: RocketSQL | LaunchSQL | MissionSQL,
         **kwargs
-    ) -> object | None:
+    ) -> bool:
     
     obj = model(**kwargs)
-    obj_exists = session.execute(
-        select(model).where(model.id==obj.id)
-    )
 
-    if not obj_exists:
+    try:
         session.add(obj)
         session.commit()
         session.refresh(obj)
-        return obj
+    except Exception:
+        return False
 
-    return obj_exists
+    return True

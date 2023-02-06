@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session, declarative_base
 
 
 Engine = create_engine(
-    "postgresql+psycopg2://postgres:postgres@127.0.0.1:5432/task"
+    "postgresql+psycopg2://postgres:postgres@database:5432/task"
 )
 
 Base = declarative_base()
@@ -16,3 +16,6 @@ def init_db() -> None:
 
 def _init_models(engine) -> None:
     Base.metadata.create_all(bind=engine)
+
+def close_session():
+    session.close_all()

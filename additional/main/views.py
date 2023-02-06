@@ -2,6 +2,7 @@ from .models import RocketSQL, LaunchSQL, MissionSQL, make_insertion
 from .shemas import Rocket, Launch, Mission, get_validated_data
 from .utils import get_response
 
+
 def create_content_view():
     raw = get_response()["data"]
 
