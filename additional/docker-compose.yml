@@ -1,0 +1,24 @@
+version: "2.15.1"
+services:
+  database:
+    image: postgres:13
+    container_name: database
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: task
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: .
+    depends_on:
+      - database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    container_name: backend
