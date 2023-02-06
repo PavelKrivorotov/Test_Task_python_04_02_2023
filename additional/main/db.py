@@ -1,9 +1,17 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, declarative_base
 
+from . import settings
 
 Engine = create_engine(
-    "postgresql+psycopg2://postgres:postgres@database:5432/task"
+    "".join([
+        f"postgresql+psycopg2://",
+        f"{settings.PG_USERNAME}:",
+        f"{settings.PG_PPASSWORD}@",
+        f"{settings.PG_HOST}:",
+        f"{settings.PG_PORT}/",
+        f"{settings.PG_DATABASE_NAME}"
+    ])
 )
 
 Base = declarative_base()
