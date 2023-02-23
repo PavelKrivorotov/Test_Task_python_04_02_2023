@@ -22,11 +22,14 @@ def get_html_tags(html: str, pattern: str = r'<([a-z]+)+( [a-z\-]+=[a-z0-9\.\'\"
 
     return tags
 
-def convert_to_tuple(v1: str, v2: str):
-    v1: list = [val for val in v1.split(".") if val]
-    v2: list = [val for val in v2.split(".") if val]
+def convert_to_list(v: str):
+    v: list = [val for val in v.split(".") if val]
+    v = list(map(int, v))
 
-    v1 = list(map(int, v1))
-    v2 = list(map(int, v2))
+    try:
+        while not v[-1]:
+            v.pop()
+    except IndexError:
+        pass
 
-    return v1, v2
+    return v

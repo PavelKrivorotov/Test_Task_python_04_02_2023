@@ -1,4 +1,4 @@
-from main.utils import get_response, get_html_tags, convert_to_tuple
+from main.utils import get_response, get_html_tags, convert_to_list
 
 
 """
@@ -44,8 +44,9 @@ def question_4():
 
     return json["ip_addr"]
 
-def question_5(v1: str, v2: str):
-    A, B = convert_to_tuple(v1, v2)
+def mycmp(v1: str, v2: str):
+    A = convert_to_list(v1)
+    B = convert_to_list(v2)
 
     if A == B:
         print(f"{v1} == {v2}")
@@ -59,6 +60,26 @@ def question_5(v1: str, v2: str):
 
 
 if __name__ == "__main__":
-    question_3()
-    question_4()
-    question_5("1.1.12.0", "1.1.12.")
+    # question_3()
+    # question_4()
+    mycmp("1.1.12.0.0", "1.1.12")
+
+    assert mycmp('1', '2') == -1
+    assert mycmp('2', '1') == 1
+    assert mycmp('1', '1') == 0
+    assert mycmp('1.0', '1') == 0
+    assert mycmp('1', '1.000') == 0
+    assert mycmp('12.01', '12.1') == 0
+    assert mycmp('13.0.1', '13.00.02') == -1
+    assert mycmp('1.1.1.1', '1.1.1.1') == 0
+    assert mycmp('1.1.1.2', '1.1.1.1') == 1
+    assert mycmp('1.1.3', '1.1.3.000') == 0
+    assert mycmp('3.1.1.0', '3.1.2.10') == -1
+    assert mycmp('1.1', '1.10') == -1
+    assert mycmp("0.1", "1.1") == -1
+    assert mycmp("1.0.1", "1") == 1
+    assert mycmp("7.5.2.4", "7.5.3") == -1
+    assert mycmp("1.01", "1.001") == 0
+    assert mycmp("1.0", "1.0.0") == 0
+    assert mycmp("2", "2.0.0") == 0
+    assert mycmp("1.01", "1.101") == -1
